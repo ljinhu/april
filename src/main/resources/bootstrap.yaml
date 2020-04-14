@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: april
+april.rabbit.config:
+       address: 47.98.140.228:5672
+       userName: admin
+       password: admin
+server:
+  port: 8999
