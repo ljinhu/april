@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 /**
  * rabbit配置类
  */
-@Component
-@ConfigurationProperties(prefix = "april.rabbit.config")
 @Data
 public class AprilRabbitMqConfigProperties {
 

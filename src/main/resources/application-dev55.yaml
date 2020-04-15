@@ -1,0 +1,5 @@
+april:
+  rabbit:
+    address: 172.32.150.55:5672
+    userName: guest
+    password: guest

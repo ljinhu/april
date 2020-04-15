@@ -1,7 +1,10 @@
 package com.jimbolix.april.rabbitmq.config;
 
+import com.jimbolix.april.config.AprilConfigProperties;
 import com.jimbolix.april.rabbitmq.peoperties.AprilRabbitMqConfigProperties;
 import com.rabbitmq.client.Channel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -18,16 +21,18 @@ import java.util.UUID;
 
 @Configuration
 public class AprilRabbitConfig {
+    private final static Logger LOGGER = LoggerFactory.getLogger(AprilRabbitConfig.class);
     @Autowired
-    private AprilRabbitMqConfigProperties configProperties;
+    private AprilConfigProperties configProperties;
 
     @Bean
     public ConnectionFactory connectionFactory(){
+        LOGGER.info("配置Rabbit连接工厂");
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setAddresses(configProperties.getAddress());
-        connectionFactory.setUsername(configProperties.getUserName());
-        connectionFactory.setPassword(configProperties.getPassword());
-        connectionFactory.setUsername(configProperties.getUserName());
+        connectionFactory.setAddresses(configProperties.getRabbit().getAddress());
+        connectionFactory.setUsername(configProperties.getRabbit().getUserName());
+        connectionFactory.setPassword(configProperties.getRabbit().getPassword());
+        connectionFactory.setUsername(configProperties.getRabbit().getUserName());
         connectionFactory.setVirtualHost("/");
         return  connectionFactory;
     }
@@ -45,10 +50,10 @@ public class AprilRabbitConfig {
         return rabbitTemplate;
     }
 
-    @Bean
+//    @Bean
     public SimpleMessageListenerContainer simpleMessageListenerContainer(ConnectionFactory connectionFactory){
         SimpleMessageListenerContainer smListenerContainer = new SimpleMessageListenerContainer(connectionFactory);
-        smListenerContainer.addQueueNames("");//绑定哪些队列
+        smListenerContainer.addQueueNames("topic_queue");//绑定哪些队列
         smListenerContainer.setMaxConcurrentConsumers(5);//最多多少消费者
         smListenerContainer.setConcurrentConsumers(1);//
         smListenerContainer.setConsumerTagStrategy(new ConsumerTagStrategy() {
@@ -62,6 +67,7 @@ public class AprilRabbitConfig {
             @Override
             public void onMessage(Message message, Channel channel) throws Exception {
                 //消息监听处理
+                LOGGER.info("收到的消息是"+message.getBody().toString());
             }
         });
         return smListenerContainer;
