@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: dev55
+  rabbitmq:
+    addresses: 47.98.140.228:5672
+    username: admin
+    password: admin
+    publisher-confirm-type: none
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+        concurrency: 1
+        max-concurrency: 5
+        retry:
+          enabled: true

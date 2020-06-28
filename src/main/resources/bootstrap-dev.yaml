@@ -1,0 +1,9 @@
+april:
+  rabbit:
+    address: 47.98.140.228:5672
+    userName: admin
+    password: admin
+weather:
+  type: rain
+  rate: serious
+weather.enable: true
