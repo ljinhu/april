@@ -21,7 +21,7 @@ public class AprilStarterController {
     private WeatherService weatherService;
 
     @GetMapping("/get")
-    public Weather getWeather(){
+    public Weather getWeather() {
         return weatherService.getWeather();
     }
 }

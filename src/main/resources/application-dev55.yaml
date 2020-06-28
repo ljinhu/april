@@ -1,5 +1,5 @@
 april:
   rabbit:
-    address: 47.98.140.228:5672
-    userName: admin
-    password: admin
+    address: 172.32.150.55:5672
+    userName: guest
+    password: guest
